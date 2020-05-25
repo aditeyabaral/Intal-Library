@@ -1,6 +1,15 @@
 # Intal-Library
 An intal (Integers of Arbitrary Length) library created a a part of the Design and Analysis of Algorithms course (UE18CS251) at PES University.
 
+## Compilation
+
+To complie and execute, use 
+
+```
+gcc -w intal.c intalsampletest.c
+./a.out
+```
+
 ## Introduction
 
 Intal stands for Integers of Arbitrary Length (intAl), and are also known as bigInt. They are used to represent numbers not
