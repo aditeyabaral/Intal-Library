@@ -1,0 +1,103 @@
+1. Introduction
+
+Intal stands for Integers of Arbitrary Length (intAl), and are also known as bigInt. They are used to represent numbers not
+limited by the size of the primitive datatypes they represent. They are used to represent arbitrarily large numbers, such 
+as computing mathematical constants to high precision, using suffeciently large keys for public-key cryptography and 
+computing distances at astronomical levels. It is also inherently immune to overflow issues, as the container size 
+can be dynamically increased as required. In practice, intals are generally implemented using linked lists or arrays, 
+with each digit of the intal residing in a single node/memory cell. Since intals are stored as digits in memory cells,
+a new set of separate functions must be built to perform arithmetic operations on them which translates operations on intals to
+operations on its digits.
+
+2. Approach
+
+a. intal_compare():
+We check if the number of digits in each intal is the same, else we say that the intal with greater number of digits
+has a higher value. If the two intals have the same number of digts, we compare each corresponding digit from the 
+highest place and return the corresponding required result with each case(lesser or greater) at the first mismatch.
+
+b. intal_add():
+We create a separate array to store the sum and fill each cell from the lowest place with the sum of the corresponding
+digits from each intal and the carry mod 10. We then move the carry to the addition of the next lowest place until we have
+reached the end of either of the intals. We then ensure all the digits in all the intals have been covered by copying them
+into the sum array similarly(with cany leftover carry). Finally the sum is trimmed of any null string prefix and returned.
+
+c. intal_diff():
+If the two intals are equal, we return a 0. Else, we set the larger intal to be the minuend and the smaller number as the
+subtrahend. Since the number of digits will never exceed the greater number, we set this size as the size of the difference.
+Each corresponding pair of digits is subtracted and a borrow is taken from the first non-zero digit on the left of the 
+requiring digit from the greater number if necessary. The number is trimmed of zeros and returned.
+
+d. intal_multiply():
+If any of the two intals is 0, we return a 0. Else, the first number is multiplied with each digit of the second number.
+The partial products obtained are multiplied with the required power of 10 and added together to obtain the product which
+is returned.
+
+e. intal_mod():
+The long division approach has been implemented. The result is initialized to 0 and the function loops through every digit 
+in the dividend, multiplies the current result by 10 and adds the new digit of the intal to the mod value, then subtracts 
+the divisor from it until the final result is lesser than the divisor. After passing over all the digits in dividend, 
+the result is intal1 % intal2
+
+f. intal_pow():
+If n is 0, we return 1.Else, we find the value of intal^n as (intal^2)^(n/2). We compute this iteratively until
+n<=0 and return the result. 
+
+g. intal_gcd():
+We use Euclid's algorithm to find the gcd of two intals. If both the numbers are 0, we return a 0. If only the second is 0,
+we return the first number. Else we iteratively find the GCD(m,n) as GCD(n,m mod n) until the second number becomes 0.
+
+h. intal_fibonacci():
+We store the first two values of the series as 0 and 1. If the index is any of these values we return the required result.
+Else, we iteratively find the next fibonacci number as the sum of the previous two and assign the values of the second number
+to the first and the sum to the second number. We continue to generate numbers until we have reached the index required, wherein 
+the last number generated is returned.
+
+i. intal_factorial():
+We initialise our factorial to be 1. If the index is 0 or 1, we return the result. Else, we keep a counter from 1 till 
+index n-1 and simultaneously iteratively multiply our result with the counter and store it back in result and also increment
+our counter by 1. Finally, the result which holds the factorial is returned.
+
+j. intal_bincoeff():
+Since C(n, k) = C(n, n-k) we choose the smaller number between k and n-k. Then we use Pascal's identity which states 
+that C(n, k) = C(n-1, k) + C(n-1, k-1). We calculate this by storing an array of intal values and iteratively finding the 
+result until index required, upon which we return the result.
+
+k. intal_max():
+We assume the first element to be the maximum and store the position as 0. We then iterative over the entire array of 
+intals and compare the values with the max. If an intal is greater than the max we update the max value and store the new
+position of the maximum. After the loop terminates we return the posiiton.
+
+l. intal_min():
+We assume the first element to be the minimum and store the position as 0. We then iterative over the entire array of 
+intals and compare the values with the min. If an intal is lesser than the min we update the min value and store the new
+position of the minimum. After the loop terminates we return the posiiton.
+
+m. intal_search():
+We iterative over the entire array of intals and compare very intal with the key. If the values are equal we return
+the index at which they match. After the loop terminates, we return -1 since the key was not found.
+
+n. intal_binsearch():
+A simple binary search was implemented on the intals. The array of intals was split into two parts and the key was compared
+to the middle element. This was done iteratively until the key was found or the array couldn't be split anymore. Finally,
+the index (or -1, if the element was not found) was returned.
+
+o. intal_sort():
+Heapsort was implemented to sort the array of intals. The array was first converted into a max heap and then interatively 
+the top element was removed and the array was heapified again. This is done until all the elements of the array have been
+covered. After covering the last element, the array becomes sorted.
+
+p. coin_row_problem():
+Given a coin, the alternatives at each step are either to select it or not, based on whether picking it results in a greater
+total value or not. Hence the value at the nth coin, F(n) can be calculated using the recurrence relation 
+F(n) = max(arr(n)+F(n-2), F(n-1)). This basically implies that picking the nth coin (arr(n)) forces us to skip the (n-1)th 
+coin which covers the given constraint. 
+
+3. Future Work
+
+a. Additional functionalities of the intal library can be added such as division, root, bitwise and conversion to other
+number systems. These will further improve the real world applications of the library. 
+b. If there were no restrictions, I would implement intal using a linked list, since it is easier to handle the arbitrary
+number of digits in a dynamic way. The advantage of arrays(random access) is lost in the current implementation. We could also
+store all this within a struct with other details such as the number of nodes and a pointer to the head so inserting of nodes
+becomes easier and we do not need to traverse a list every time to find the length.
